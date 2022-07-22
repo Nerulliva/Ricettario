@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {AlertComponent} from "./alert/alert.component";
 import {LoadingSpinnerComponent} from "./loading-spinner/loading-spinner.component";
-import {PlaceholderDirective} from "./placeholder/placeholder.directive";
 import {CommonModule} from "@angular/common";
 import {DirectivesModule} from "./directives.module";
 
@@ -9,7 +8,6 @@ import {DirectivesModule} from "./directives.module";
   declarations:[
     AlertComponent,
     LoadingSpinnerComponent,
-
   ],
   imports:[
     CommonModule,
@@ -18,10 +16,8 @@ import {DirectivesModule} from "./directives.module";
   exports:[
     AlertComponent,
     LoadingSpinnerComponent,
-    PlaceholderDirective,
     CommonModule,
     DirectivesModule
-
   ]
 })
 export class SharedModule{}
