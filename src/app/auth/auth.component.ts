@@ -5,6 +5,9 @@ import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {AlertComponent} from "../shared/alert/alert.component";
 import {PlaceholderDirective} from "../shared/placeholder/placeholder.directive";
+import {Store} from "@ngrx/store";
+import * as fromApp from '../store/app.reducer'
+import * as AuthActions from './store/auth.actions'
 
 @Component({
   selector: 'app-auth',
@@ -15,14 +18,19 @@ export class AuthComponent implements OnInit, OnDestroy{
   isLoading = false;
   error: string = null;
   //per alert
-  @ViewChild(PlaceholderDirective) alertHost: PlaceholderDirective;
+  @ViewChild(PlaceholderDirective) alertHost : PlaceholderDirective;
   //per alert
   private closeSub: Subscription;
 
   constructor(private authService: AuthService,
-              private router: Router) {}
+              private router: Router,
+              private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
+    this.store.select('auth').subscribe(authState => {
+      this.isLoading = authState.loading;
+      this.error = authState.authError;
+    });
   }
 
   onSwitchMode(){
@@ -41,13 +49,15 @@ export class AuthComponent implements OnInit, OnDestroy{
 
     this.isLoading = true;
     if(this.isLoginMode){
-      authObs = this.authService.login(email, password);
+      //authObs = this.authService.login(email, password);
+      this.store.dispatch(new AuthActions.LoginStart({email: email, password: password}));
     }
     else {
       authObs = this.authService.signUp(email, password);
     }
 
-    authObs.subscribe(
+
+    /*authObs.subscribe(
       {
         next: (resData) => {
           console.log(resData)
@@ -61,7 +71,7 @@ export class AuthComponent implements OnInit, OnDestroy{
           this.isLoading = false;
         }
       }
-      );
+      );*/
       form.reset();
   }
 

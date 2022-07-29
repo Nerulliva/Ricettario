@@ -2,6 +2,7 @@ import {Ingredient} from "../shared/ingredient.model";
 import {EventEmitter} from "@angular/core";
 import {Subject} from "rxjs";
 
+//Non in uso
 export class ShoppingListService{
 //metto questo perche' con quando aggiungo non si riflette sull'array di shopping-list
   ingredientsChanged = new Subject<Ingredient[]>();

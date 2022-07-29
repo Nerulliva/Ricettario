@@ -45,7 +45,7 @@ export function shoppingListReducer(state: State = initialState,
       console.log("ingredient preso ");//debug
       console.log(ingredient) //debug
       const updatedIngredient = {
-        ...ingredient, // ingrediente originale
+        ...ingredient, // elementi ingrediente originale
         ...action.payload //ingrediente preso dal form mandato come payload
       };
       console.log("ingrediente aggiornato "); //debug
