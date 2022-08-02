@@ -27,7 +27,8 @@ const handleAuthentication = (expiresIn: number, email: string, userId: string, 
       email: email,
       userId: userId,
       token: token,
-      expirationDate: expirationDate
+      expirationDate: expirationDate,
+      redirect: true
     })
   );
 };
@@ -112,9 +113,12 @@ export class AuthEffects{
 
   authRedirect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.AUTHENTICATE_SUCCESS /*AuthActions.LOGOUT*/),
-      tap(() => {
-        this.router.navigate(['/']);
+      ofType(AuthActions.AUTHENTICATE_SUCCESS),
+      tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
+        if(authSuccessAction.payload.redirect){
+          this.router.navigate(['/']);
+        }
+        console.log("redirect = "+authSuccessAction.payload.redirect);//debug
       })),
     {
       dispatch: false //indica che non deve ritornare un observable
@@ -146,7 +150,9 @@ export class AuthEffects{
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
-          expirationDate: new Date(userData._tokenExpirationDate)})
+          expirationDate: new Date(userData._tokenExpirationDate),
+          redirect: false
+        })
       }
       return { type: 'DUMMY'};
     })
