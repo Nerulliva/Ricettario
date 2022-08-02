@@ -7,7 +7,6 @@ export const AUTHENTICATE_FAIL = '[Auth] Login Failure'
 export const SIGNUP_START = '[Auth] Signup Start';
 export const LOGOUT = '[Auth] Logout';
 export const CLEAR_ERROR = '[Auth] Clear Error';
-//export const SIGNUP = '[Auth] Signup';
 
 //tipologia di azioni
 

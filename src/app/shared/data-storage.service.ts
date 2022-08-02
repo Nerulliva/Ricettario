@@ -2,15 +2,19 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Recipe} from "../recipes/recipe.model";
 import {RecipeService} from "../recipes/recipe.service";
-import {exhaustAll, exhaustMap, map, take, tap} from "rxjs";
+import {map, tap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
+import {Store} from "@ngrx/store";
+import * as fromApp from '../store/app.reducer';
+import * as RecipesActions from '../recipes/store/recipe.actions';
 
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService{
   constructor(private http: HttpClient,
               private recipesService: RecipeService,
-              private authService: AuthService){}
+              private authService: AuthService,
+              private store: Store<fromApp.AppState>){}
 
   storeRecipes(){
     const recipes = this.recipesService.getRecipes();
@@ -24,13 +28,14 @@ export class DataStorageService{
     return this.http.get<Recipe[]>('https://recipe-book-db-ab882-default-rtdb.europe-west1.firebasedatabase.app/recipes.json')
       .pipe(map(recipes =>{
         return recipes.map(recipe => {
-          return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients: []};
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients: []
+          };
         });
       }),
-        // questo observable viene catturato da header con -> this.dataStorageService.fetchRecipes().subscribe();
-        // tap ritorna il risultato di un observable e poi ci faccio quel che voglio
         tap(recipes => {
-          this.recipesService.setRecipes(recipes);
+          this.store.dispatch(new RecipesActions.SetRecipes(recipes));
         })
       )
   }

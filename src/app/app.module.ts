@@ -7,9 +7,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 import {CoreModule} from "./core.module";
 import {StoreModule} from "@ngrx/store";
-import * as fromApp from './store/app.reducer'
-import { EffectsModule } from '@ngrx/effects'
-import {AuthEffects} from "./auth/store/auth .effects";
+import * as fromApp from './store/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import {AuthEffects} from './auth/store/auth.effects';
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
