@@ -26,7 +26,8 @@ export class DataStorageService{
 
   fetchRecipes(){
     return this.http.get<Recipe[]>('https://recipe-book-db-ab882-default-rtdb.europe-west1.firebasedatabase.app/recipes.json')
-      .pipe(map(recipes =>{
+      .pipe(
+        map(recipes =>{
         return recipes.map(recipe => {
           return {
             ...recipe,
